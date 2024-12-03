@@ -17,7 +17,7 @@
         const visitorId = result.visitorId;
 
         // Validar la huella digital en el servidor
-       fetch('/validate', {
+        fetch('/api/validate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fingerprint: visitorId })
