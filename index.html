@@ -11,30 +11,30 @@
     <p id="status">Validando acceso...</p>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            const fp = await FingerprintJS.load();
-            const result = await fp.get();
-            const visitorId = result.visitorId;
+    document.addEventListener('DOMContentLoaded', async function() {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        const visitorId = result.visitorId;
 
-            // Enviar la huella digital al servidor
-            fetch('/validate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fingerprint: visitorId })
-            })
+        // Validar la huella digital en el servidor
+        fetch('/api/validate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fingerprint: visitorId })
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.access) {
-                    document.getElementById('status').textContent = "Acceso permitido.";
+                    document.body.innerHTML = "<h1>Acceso permitido</h1>";
                 } else {
-                    document.getElementById('status').textContent = "Acceso denegado.";
+                    document.body.innerHTML = "<h1>Acceso denegado</h1>";
                 }
             })
             .catch(error => {
-                document.getElementById('status').textContent = "Error en la validación.";
                 console.error('Error:', error);
+                document.body.innerHTML = "<h1>Error al validar el acceso</h1>";
             });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
